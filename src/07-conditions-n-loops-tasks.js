@@ -146,86 +146,71 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rct1, rct2 */) {
-  throw new Error('Not implemented');
-  // let check = false;
+function doRectanglesOverlap(rct1, rct2) {
+  // throw new Error('Not implemented');
+  const r1x1 = rct1.left;
+  const r1y1 = rct1.top;
+  const r1x2 = rct1.left + rct1.width;
+  const r1y2 = rct1.top;
+  const r1x3 = rct1.left + rct1.width;
+  const r1y3 = rct1.top + rct1.height;
+  const r1x4 = rct1.left;
+  const r1y4 = rct1.top + rct1.height;
+  const r2x1 = rct2.left;
+  const r2y1 = rct2.top;
+  const r2x2 = rct2.left + rct2.width;
+  const r2y2 = rct2.top;
+  const r2x3 = rct2.left + rct2.width;
+  const r2y3 = rct2.top + rct2.height;
+  const r2x4 = rct2.left;
+  const r2y4 = rct2.top + rct2.height;
 
-  // function ch(top, left) {
-  //   let temp = 0;
-  //   if (top > rect1.top && top < rect1.top + rect1.width) {
-  //     temp += 1;
-  //   }
-  //   if (left > rect1.left && left < rect1.left + rect1.height) {
-  //     temp += 1;
-  //   }
-  //   return temp === 2;
-  // }
-  // check = ch(rect2.top, rect2.left);
-  // if (check) {
-  //   return true;
-  // }
-  // check = ch(rect2.top, rect2.left + rect2.width);
-  // if (check) {
-  //   return true;
-  // }
-  // const ch1 = rect1.left === rect1.left + rect1.width || rect1.top === rect1.top + rect1.height;
-  // const ch2 = rect2.left + rect2.width === rect2.left || rect2.top === rect2.top + rect2.height;
-  // if (ch1 || ch2) {
-  //   return false;
-  // }
-  // const ch3 = rect1.left > rect2.left + rect2.width;
-  // if (ch3 || rect2.left > rect1.left + rect1.width) {
-  //   return false;
-  // }
-  // const ch4 = rect1.top + rect1.height > rect2.top;
-  // if (ch4 || rect2.top + rect2.height > rect1.top) {
-  //   return false;
-  // }
-  // return true;
+  const rect1 = [[r1x1, r1y1], [r1x2, r1y2], [r1x3, r1y3], [r1x4, r1y4]];
+  const rect2 = [[r2x1, r2y1], [r2x2, r2y2], [r2x3, r2y3], [r2x4, r2y4]];
 
-  // const r1x1 = rct1.left;
-  // const r1y1 = rct1.top;
-  // const r1x2 = rct1.left + rct1.width;
-  // const r1y2 = rct1.top;
-  // const r1x3 = rct1.left + rct1.width;
-  // const r1y3 = rct1.top + rct1.height;
-  // const r1x4 = rct1.left;
-  // const r1y4 = rct1.top + rct1.height;
-  // const r2x1 = rct2.left;
-  // const r2y1 = rct2.top;
-  // const r2x2 = rct2.left + rct2.width;
-  // const r2y2 = rct2.top;
-  // const r2x3 = rct2.left + rct2.width;
-  // const r2y3 = rct2.top + rct2.height;
-  // const r2x4 = rct2.left;
-  // const r2y4 = rct2.top + rct2.height;
-
-  // const rect1 = [[r1x1, r1y1], [r1x2, r1y2], [r1x3, r1y3], [r1x4, r1y4]];
-  // const rect2 = [[r2x1, r2y1], [r2x2, r2y2], [r2x3, r2y3], [r2x4, r2y4]];
-
-  // if ((rect1[0][0] < rect2[0][0] && rect2[0][0] < rect1[1][0])
-  //   || (rect1[0][0] < rect2[1][0] && rect2[1][0] < rect1[1][0])
-  //   || (rect2[0][0] < rect1[0][0] && rect1[1][0] < rect2[1][0])) {
-  //   if ((rect1[0][1] < rect2[0][1] && rect2[0][1] < rect1[1][1])
-  //     || (rect1[0][1] < rect2[1][1] && rect2[1][1] < rect1[1][1])
-  //     || (rect2[0][1] < rect1[0][1] && rect1[1][1] < rect2[1][1])) {
-  //     return false;
-  //   }
-  // }
-
-  // // if rectangle has area 0, no overlap
-  // if (l1x === r1x || l1y === r1y || r2x === l2x || l2y === r2y) {
-  //   return true;
-  // }
-  // // If one rectangle is on left side of other
-  // if (l1x > r2x || l2x > r1x) {
-  //   return true;
-  // }
-  // // If one rectangle is above other
-  // if (r1y > l2y || r2y > l1y) {
-  //   return true;
-  // }
-  // return false;
+  let check = false;
+  let res = false;
+  function check1(arr) {
+    let temp = 0;
+    if (arr[0] >= r2x1 && arr[0] <= r2x2) {
+      temp += 1;
+    }
+    if (arr[1] >= r2y1 && arr[1] <= r2y4) {
+      temp += 1;
+    }
+    return temp === 2;
+  }
+  function check2(arr) {
+    let temp = 0;
+    if (arr[0] >= r1x1 && arr[0] <= r1x2) {
+      temp += 1;
+    }
+    if (arr[1] >= r1y1 && arr[1] <= r1y4) {
+      temp += 1;
+    }
+    return temp === 2;
+  }
+  for (let i = 0; i < rect1.length; i += 1) {
+    check = check1(rect1[i]);
+    if (check) {
+      res = true;
+      break;
+    }
+  }
+  if (res) {
+    return res;
+  }
+  for (let i = 0; i < rect2.length; i += 1) {
+    check = check2(rect2[i]);
+    if (check) {
+      res = true;
+      break;
+    }
+  }
+  if (res) {
+    return res;
+  }
+  return res;
 }
 
 
